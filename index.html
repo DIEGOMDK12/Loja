@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Loja Digital Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --dark-lighter: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 50%, var(--dark) 100%);
+            min-height: 100vh;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 1;
+            padding: 40px 20px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1em;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--danger) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .product-info {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .product-description {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .price-original {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            font-size: 0.95em;
+        }
+
+        .price-discount {
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+        }
+
+        .admin-fab {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--dark-light) 0%, var(--dark) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--dark);
+            border: 1px solid var(--dark-lighter);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--dark-lighter);
+            color: var(--text);
+        }
+
+        .admin-product-list {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .admin-product-list h4 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .admin-product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: var(--dark);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--dark-lighter);
+        }
+
+        .admin-product-item span {
+            font-size: 0.95em;
+            flex: 1;
+        }
+
+        .admin-product-item .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-product-item button {
+            padding: 8px 14px;
+            font-size: 0.85em;
+        }
+
+        .login-section {
+            text-align: center;
+        }
+
+        .login-section .modal-title {
+            margin-bottom: 30px;
+        }
+
+        .password-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .password-section h4 {
+            font-size: 1em;
+            margin-bottom: 15px;
+            color: var(--warning);
+        }
+
+        .btn-logout {
+            margin-top: 20px;
+            background: var(--dark-lighter);
+            color: var(--text-muted);
+        }
+
+        .footer {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 40px 20px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .footer-logo-text {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .footer-info {
+            margin-bottom: 25px;
+        }
+
+        .footer-info p {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .footer-info a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-info a:hover {
+            color: var(--primary);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .footer-social a {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-lighter);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2em;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-social a.whatsapp:hover {
+            background: #25D366;
+        }
+
+        .footer-social a.instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 20px 0;
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+
+        .footer-copyright span {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo-text {
+                font-size: 1.2em;
+            }
+
+            .section-title h2 {
+                font-size: 1.8em;
+            }
+
+            .product-grid {
+                gap: 12px;
+            }
+
+            .product-info {
+                padding: 15px;
+            }
+
+            .product-name {
+                font-size: 1em;
+            }
+
+            .price-discount {
+                font-size: 1.3em;
+            }
+
+            .whatsapp-btn {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">&#128722;</div>
+                <span class="logo-text">Sua Loja Digital Pro</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="section-title">
+            <h2>Produtos em Destaque</h2>
+            <p>Confira nossas ofertas especiais</p>
+        </div>
+
+        <div class="product-grid" id="product-list"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">&#128722;</div>
+                <span class="footer-logo-text">Sua Loja Digital Pro</span>
+            </div>
+            
+            <div class="footer-info">
+                <p>Produtos de qualidade com os melhores precos</p>
+                <p>Atendimento rapido e personalizado via WhatsApp</p>
+                <p>Entrega para todo o Brasil</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="#" class="whatsapp" title="WhatsApp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <a href="#" class="instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <p class="footer-copyright">
+                &copy; 2025 <span>Sua Loja Digital Pro</span>. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <button class="admin-fab" id="admin-trigger" title="Painel Admin">&#9881;</button>
+
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+
+            <div class="login-section" id="login-section">
+                <h2 class="modal-title">Acesso Administrativo</h2>
+                <div class="form-group">
+                    <input type="password" id="admin-password" placeholder="Digite a senha de administrador">
+                </div>
+                <button class="btn btn-primary" id="login-btn">Entrar</button>
+            </div>
+
+            <div id="admin-section" style="display: none;">
+                <h2 class="modal-title">Gerenciar Produtos</h2>
+
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    
+                    <div class="form-group">
+                        <label>Nome do Produto</label>
+                        <input type="text" id="name" placeholder="Ex: Fone Bluetooth Premium" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>URL da Imagem</label>
+                        <input type="text" id="image-url" placeholder="https://exemplo.com/imagem.jpg" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preco Original (R$)</label>
+                        <input type="number" id="original-price" placeholder="199.90" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preco com Desconto (R$)</label>
+                        <input type="number" id="discount-price" placeholder="99.90" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Numero WhatsApp (com DDD)</label>
+                        <input type="text" id="whatsapp-number" placeholder="5511999999999" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descricao do Produto</label>
+                        <textarea id="description" placeholder="Descreva o produto..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="save-button">Salvar Produto</button>
+                </form>
+
+                <div class="admin-product-list">
+                    <h4>Produtos Cadastrados</h4>
+                    <div id="admin-product-list"></div>
+                </div>
+
+                <div class="password-section">
+                    <h4>Alterar Senha</h4>
+                    <div class="form-group">
+                        <input type="password" id="new-password" placeholder="Nova senha (minimo 6 caracteres)">
+                    </div>
+                    <button class="btn btn-secondary" id="change-password-btn">Alterar Senha</button>
+                </div>
+
+                <button class="btn btn-logout" id="logout-btn">Sair do Painel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'loja_products';
+        const ADMIN_KEY = 'loja_admin';
+        const DEFAULT_PASSWORD = 'admin123';
+
+        const modal = document.getElementById('admin-modal');
+        const productListDiv = document.getElementById('product-list');
+        const adminProductListDiv = document.getElementById('admin-product-list');
+        const form = document.getElementById('product-form');
+        const loginSection = document.getElementById('login-section');
+        const adminSection = document.getElementById('admin-section');
+
+        function getProducts() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        }
+
+        function saveProducts(products) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        }
+
+        function getAdminData() {
+            return JSON.parse(localStorage.getItem(ADMIN_KEY)) || { password: DEFAULT_PASSWORD, loggedIn: false };
+        }
+
+        function saveAdminData(data) {
+            localStorage.setItem(ADMIN_KEY, JSON.stringify(data));
+        }
+
+        function calculateDiscount(original, discount) {
+            return Math.round(((original - discount) / original) * 100);
+        }
+
+        function renderProducts() {
+            const products = getProducts();
+            productListDiv.innerHTML = '';
+
+            if (!products.length) {
+                productListDiv.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon">&#128722;</div>
+                        <h3>Nenhum produto cadastrado</h3>
+                        <p>Clique no botao de configuracoes para adicionar produtos</p>
+                    </div>
+                `;
+                return;
+            }
+
+            products.forEach((product, index) => {
+                const discount = calculateDiscount(parseFloat(product.originalPrice), parseFloat(product.discountPrice));
+                const whatsappMessage = encodeURIComponent(
+                    `Ola! Tenho interesse no produto "${product.name}" por R$ ${product.discountPrice}.\n\nDetalhes: ${product.description}\n\nPor favor, me envie mais informacoes!`
+                );
+                const whatsappLink = `https://wa.me/${product.whatsappNumber}?text=${whatsappMessage}`;
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.opacity = '0';
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.imageUrl}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x300/1e293b/6366f1?text=Imagem'">
+                        <span class="discount-badge">-${discount}%</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="price-container">
+                            <span class="price-original">R$ ${product.originalPrice}</span>
+                            <span class="price-discount">R$ ${product.discountPrice}</span>
+                        </div>
+                        <a href="${whatsappLink}" target="_blank" class="whatsapp-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Comprar via WhatsApp
+                        </a>
+                    </div>
+                `;
+                productListDiv.appendChild(card);
+            });
+        }
+
+        document.getElementById('admin-trigger').addEventListener('click', () => {
+            modal.classList.add('active');
+            const admin = getAdminData();
+            if (admin.loggedIn) {
+                showAdminPanel();
+            } else {
+                showLoginForm();
+            }
+        });
+
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            form.reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('save-button').textContent = 'Salvar Produto';
+            renderProducts();
+        }
+
+        function showLoginForm() {
+            loginSection.style.display = 'block';
+            adminSection.style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        function showAdminPanel() {
+            loginSection.style.display = 'none';
+            adminSection.style.display = 'block';
+            loadAdminProductList();
+        }
+
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const password = document.getElementById('admin-password').value;
+            const admin = getAdminData();
+
+            if (password === admin.password) {
+                admin.loggedIn = true;
+                saveAdminData(admin);
+                showAdminPanel();
+            } else {
+                alert('Senha incorreta!');
+            }
+        });
+
+        document.getElementById('admin-password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('login-btn').click();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            const admin = getAdminData();
+            admin.loggedIn = false;
+            saveAdminData(admin);
+            showLoginForm();
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const productData = {
+                id: document.getElementById('product-id').value || Date.now().toString(),
+                name: document.getElementById('name').value,
+                imageUrl: document.getElementById('image-url').value,
+                originalPrice: parseFloat(document.getElementById('original-price').value).toFixed(2),
+                discountPrice: parseFloat(document.getElementById('discount-price').value).toFixed(2),
+                whatsappNumber: document.getElementById('whatsapp-number').value.replace(/\D/g, ''),
+                description: document.getElementById('description').value
+            };
+
+            let products = getProducts();
+            const existingIndex = products.findIndex(p => p.id === productData.id);
+
+            if (existingIndex > -1) {
+                products[existingIndex] = productData;
+            } else {
+                products.push(productData);
+            }
+
+            saveProducts(products);
+            alert(`Produto "${productData.name}" salvo com sucesso!`);
+            form.reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('save-button').textContent = 'Salvar Produto';
+            loadAdminProductList();
+        });
+
+        function loadAdminProductList() {
+            const products = getProducts();
+            adminProductListDiv.innerHTML = '';
+
+            if (!products.length) {
+                adminProductListDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">Nenhum produto cadastrado</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'admin-product-item';
+                item.innerHTML = `
+                    <span>${product.name} - R$ ${product.discountPrice}</span>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="editProduct('${product.id}')">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Excluir</button>
+                    </div>
+                `;
+                adminProductListDiv.appendChild(item);
+            });
+        }
+
+        window.editProduct = (id) => {
+            const products = getProducts();
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('name').value = product.name;
+            document.getElementById('image-url').value = product.imageUrl;
+            document.getElementById('original-price').value = product.originalPrice;
+            document.getElementById('discount-price').value = product.discountPrice;
+            document.getElementById('whatsapp-number').value = product.whatsappNumber;
+            document.getElementById('description').value = product.description;
+            document.getElementById('save-button').textContent = 'Atualizar Produto';
+
+            form.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.deleteProduct = (id) => {
+            if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+
+            let products = getProducts();
+            products = products.filter(p => p.id !== id);
+            saveProducts(products);
+            alert('Produto excluido!');
+            loadAdminProductList();
+        };
+
+        document.getElementById('change-password-btn').addEventListener('click', () => {
+            const newPassword = document.getElementById('new-password').value;
+
+            if (newPassword.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres');
+                return;
+            }
+
+            const admin = getAdminData();
+            admin.password = newPassword;
+            saveAdminData(admin);
+            alert('Senha alterada com sucesso!');
+            document.getElementById('new-password').value = '';
+        });
+
+        renderProducts();
+    </script>
+</body>
+</html>
